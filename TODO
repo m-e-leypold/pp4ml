@@ -1,0 +1,6 @@
+
+- add --path option to pp4ml (only useful for labnet install)
+- Pre(), Post(), Assert() - exact semantics to be defined.
+- Move reporting to printf and stderr
+- Functors to create relation operators and tracing support
+- Possibility to extract a test list

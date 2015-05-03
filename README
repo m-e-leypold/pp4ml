@@ -1,0 +1,101 @@
+* -*- mode: org -*-
+#+STARTUP: indent oddeven
+
+* About 'pp4ml'
+
+'pp4ml' is a m4 based preprocessor for OCaml that extends the syntax
+by 3 constructs to allow 'easy' embedding of tests in modules:
+
+- let TEST(...) = begin ... end defines a test.
+- Macros Expect() and Expect_raises() that assert certain
+  conditions (bool or raising of an exception).
+
+Example:
+
+#+begin_src ocaml
+
+  let TEST(foo) = begin
+      
+      let five = 5 in
+      let doubletwo = 2*2 in
+
+      Expect( Int.( four = doubletwo ))
+
+    end;;
+
+
+  let TEST(bar) = begin
+
+      let four = 4 in
+      let doubletwo = 2*2 in
+      
+      Expect( Int.( four = doubletwo ))
+  end;;
+  
+#+end_src
+
+Running a program with those tests embedded will result in outout like the following:
+
+#+begin_example 
+
+  => 2 tests to be run.
+
+  Testing: foo ... 
+  p3.ml:8: *** Expectation failed: Int.( five = doubletwo ). ***
+  FAILED: foo.
+
+  Testing: bar ... OK.
+
+  PASSED: bar (1 tests).
+  FAILED: foo (1 tests).
+  -------
+  STATS : 1/2 => 50 % passed.
+
+#+end_example
+
+Note the nice printing of the location where the expectation failed.
+
+Currently it does not provide:
+
+- Possibility to turn of tests (tests are always executed after the
+  the module body).
+- Run tests selectively or extract a list of embedded tests.
+- Hygienc namespace in Expect...() - the namespace is currently
+  polluted by a redefined ':=' operator.
+
+Most of that is planned for a future version. The currently pending
+release (0.0.1) must be considered more of a feasability study than a
+finished product.
+
+* Installing 'pp4ml'
+
+The following shell commands should build a tree ready to be packaged in subdirectory STAGE. 
+
+: make
+: make install
+
+Note that we never install to =/usr/somewhere=, but always in =STAGE/=
+except if you set the make variable DEST to the empty string (so,
+don't: Installing by bypassing package management is not considered
+state of the art today).
+
+* License
+
+pp4ml - a m4 based preprocessor for ocaml
+Copyright (C) 2015 -- M E Leypold
+
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or (at
+your option) any later version.
+
+This program is distributed in the hope that it will be useful, but
+WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
+
+

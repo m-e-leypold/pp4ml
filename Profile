@@ -1,0 +1,10 @@
+#!/bin/bash
+
+. mypath.shlib "$0"
+. profile-tools.shlib
+
+begin_profile  "$@"
+{
+    add_to_path PATH "$MYPATH"
+}
+end_profile
